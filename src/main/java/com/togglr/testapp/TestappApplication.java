@@ -20,8 +20,9 @@ public class TestappApplication {
 	@PostConstruct
 	public void init() {
 		List<ApplicationUser> users = new ArrayList<>();
-		users.add(new ApplicationUser(1, "Sam Bell", "sam.bell@utexas.edu"));
-		users.add(new ApplicationUser(2, "Joshua Bell", "jbell@testing.io"));
+		users.add(new ApplicationUser(1, "Sam Bell", "sam.bell@utexas.edu", "snb2557"));
+		users.add(new ApplicationUser(3, "Sam N. Bell", "sam.bell@utexas.edu", "sb1641"));
+		users.add(new ApplicationUser(2, "Joshua Bell", "jbell@testing.io", "jbell1404"));
 		userRepository.saveAll(users);
 	}
 

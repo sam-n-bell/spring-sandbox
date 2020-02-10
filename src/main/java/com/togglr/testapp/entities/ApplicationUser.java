@@ -10,16 +10,26 @@ public class ApplicationUser {
 
     }
 
-    public ApplicationUser(int id, String name, String email) {
+    public ApplicationUser(int id, String name, String email, String eid) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.eid = eid;
     }
 
     @Id
     private int id;
     private String name;
     private String email;
+    private String eid;
+
+    public String getEid() {
+        return eid;
+    }
+
+    public void setEid(String eid) {
+        this.eid = eid;
+    }
 
     public int getId() {
         return id;
