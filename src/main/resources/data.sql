@@ -19,4 +19,9 @@ CREATE TABLE IF NOT EXISTS tasks (
 );
 
 INSERT INTO tasks (description, user_id) VALUES
-('a test description', 1);
+('Finish school', 1),
+('Get a job...FAST!', 1),
+('Get abs', 1),
+('Become younger', 1),
+('Take out the trash', 2),
+('Mow the lawn', 2);
