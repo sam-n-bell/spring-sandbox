@@ -1,6 +1,8 @@
 package com.togglr.testapp;
 
-import com.togglr.testapp.entities.ApplicationUser;
+import com.togglr.testapp.entities.ApplicationUserEntity;
+import com.togglr.testapp.entities.TaskEntity;
+import com.togglr.testapp.repositories.TaskRepository;
 import com.togglr.testapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -16,14 +18,15 @@ public class TestappApplication {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private TaskRepository taskRepository;
+
 	// run at startup with PostConstruct
 	@PostConstruct
 	public void init() {
-		List<ApplicationUser> users = new ArrayList<>();
-		users.add(new ApplicationUser(1, "Sam Bell", "sam.bell@utexas.edu", "snb2557"));
-		users.add(new ApplicationUser(3, "Sam N. Bell", "sam.bell@utexas.edu", "sb1641"));
-		users.add(new ApplicationUser(2, "Joshua Bell", "jbell@testing.io", "jbell1404"));
-		userRepository.saveAll(users);
+
+
+
 	}
 
 	public static void main(String[] args) {
