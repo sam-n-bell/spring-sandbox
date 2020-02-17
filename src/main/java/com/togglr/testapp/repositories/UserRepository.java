@@ -31,4 +31,6 @@ public interface UserRepository extends JpaRepository<ApplicationUserEntity, Int
      * @return
      */
     public List<ApplicationUserEntity> findAllByEmail(@Param("email") String email, Sort sort);
+
+    public ApplicationUserEntity findById(@Param("id") int id);
 }

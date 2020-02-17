@@ -12,4 +12,8 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "tasks", path="tasks") //makes it /tasks/ and not /taskentity/
 public interface TaskRepository extends JpaRepository<TaskEntity, Integer> {
 
+    public List<TaskEntity> findAllByUserId(@Param("userId") Integer id, Sort sort);
+
+    public List<TaskEntity> findAllByUserId(int id, Sort sort);
+
 }

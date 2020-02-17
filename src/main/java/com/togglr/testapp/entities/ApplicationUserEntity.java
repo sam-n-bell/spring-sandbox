@@ -29,6 +29,7 @@ public class ApplicationUserEntity {
         this.id = id;
     }
 
+    // mappedBy is the property in the target entity that connects these two entities
     @OneToMany(targetEntity = TaskEntity.class, mappedBy = "userByUserId")
     public Collection<TaskEntity> getTasksById() {
         return tasksById;

@@ -32,6 +32,8 @@ public class TaskEntity {
         return description;
     }
 
+    // name is the foreign key
+    // referencedcolumnname is the name of the PK column in the foreign table
     @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false, insertable = false, updatable = false)
     public ApplicationUserEntity getUserByUserId() {
