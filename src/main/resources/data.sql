@@ -15,7 +15,8 @@ INSERT INTO users (email, eid, name) VALUES
 CREATE TABLE IF NOT EXISTS tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     description VARCHAR(250) NOT NULL,
-    user_id INT NOT NULL
+    user_id INT NOT NULL,
+    deleted BOOLEAN DEFAULT FALSE
 );
 
 INSERT INTO tasks (description, user_id) VALUES
@@ -25,3 +26,5 @@ INSERT INTO tasks (description, user_id) VALUES
 ('Become younger', 1),
 ('Take out the trash', 2),
 ('Mow the lawn', 2);
+
+UPDATE tasks SET deleted = FALSE WHERE deleted IS NULL;

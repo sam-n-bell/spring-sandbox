@@ -1,9 +1,14 @@
 package com.togglr.testapp.entities;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="TASKS")
+//@SQLDelete(sql = "UPDATE TASKS SET DELETED = true WHERE ID = ?")
+//@Where(clause = "DELETED = false")
 public class TaskEntity {
 
     public TaskEntity() {
@@ -13,6 +18,7 @@ public class TaskEntity {
     private String description;
     private ApplicationUserEntity userByUserId;
     private Integer userId;
+    private boolean deleted;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +26,17 @@ public class TaskEntity {
     public Integer getId() {
         return id;
     }
+
     @Basic
     @Column(name = "USER_ID")
     public Integer getUserId() {
         return userId;
+    }
+
+    @Basic
+    @Column(name = "DELETED", columnDefinition = "BOOLEAN default FALSE")
+    public boolean getDeleted() {
+        return deleted;
     }
 
     @Basic
@@ -56,7 +69,7 @@ public class TaskEntity {
         this.id = id;
     }
 
-
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 
     public void setDescription(String description) {
         this.description = description;
