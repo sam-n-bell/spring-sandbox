@@ -1,10 +1,15 @@
 package com.togglr.testapp.entities;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
 @Table(name="USERS")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class ApplicationUserEntity {
 
 
@@ -13,6 +18,7 @@ public class ApplicationUserEntity {
     private String email;
     private String eid;
     private Collection<TaskEntity> tasksById;
+    private boolean deleted;
 
     public ApplicationUserEntity() {
 
@@ -30,7 +36,7 @@ public class ApplicationUserEntity {
     }
 
     // mappedBy is the property in the target entity that connects these two entities
-    @OneToMany(targetEntity = TaskEntity.class, mappedBy = "userByUserId")
+    @OneToMany(targetEntity = TaskEntity.class, mappedBy = "userByUserId", cascade = CascadeType.REMOVE)
     public Collection<TaskEntity> getTasksById() {
         return tasksById;
     }
@@ -67,6 +73,14 @@ public class ApplicationUserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+
+    @Basic
+    @Column(name = "DELETED", columnDefinition = "BOOLEAN default FALSE")
+    public boolean getDeleted() {
+        return deleted;
     }
 
     @Override

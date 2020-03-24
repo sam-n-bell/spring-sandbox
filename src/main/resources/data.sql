@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(250) NOT NULL,
     eid VARCHAR(250) NOT NULL,
-    name VARCHAR(250) NOT NULL
+    name VARCHAR(250) NOT NULL,
+    deleted BOOLEAN DEFAULT FALSE
 );
 
 INSERT INTO users (email, eid, name) VALUES
@@ -19,12 +20,10 @@ CREATE TABLE IF NOT EXISTS tasks (
     deleted BOOLEAN DEFAULT FALSE
 );
 
-INSERT INTO tasks (description, user_id) VALUES
-('Finish school', 1),
-('Get a job...FAST!', 1),
-('Get abs', 1),
-('Become younger', 1),
-('Take out the trash', 2),
-('Mow the lawn', 2);
-
-UPDATE tasks SET deleted = FALSE WHERE deleted IS NULL;
+INSERT INTO tasks (description, user_id, deleted) VALUES
+('Finish school', 1, false),
+('Get a job...FAST!', 1, false),
+('Get abs', 1, true),
+('Become younger', 1, false),
+('Take out the trash', 2, false),
+('Mow the lawn', 2, true);

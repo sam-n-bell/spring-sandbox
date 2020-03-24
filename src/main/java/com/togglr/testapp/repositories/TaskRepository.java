@@ -14,6 +14,4 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Integer> {
 
     public List<TaskEntity> findAllByUserId(@Param("userId") Integer id, Sort sort);
 
-    public List<TaskEntity> findAllByUserId(int id, Sort sort);
-
 }

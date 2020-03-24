@@ -7,8 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="TASKS")
-//@SQLDelete(sql = "UPDATE TASKS SET DELETED = true WHERE ID = ?")
-//@Where(clause = "DELETED = false")
+@SQLDelete(sql = "UPDATE tasks SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class TaskEntity {
 
     public TaskEntity() {
