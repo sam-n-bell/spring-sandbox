@@ -13,8 +13,10 @@ public interface AppUserProjection {
 
     String getEmail();
 
-    Collection<TaskEntity> getTasksById();
+    String getEid();
 
+    boolean getDeleted();
 
+    String getName();
 
 }

@@ -3,6 +3,7 @@ package com.togglr.testapp.repositories;
 import com.togglr.testapp.entities.ApplicationUserEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
@@ -31,4 +32,10 @@ public interface UserRepository extends JpaRepository<ApplicationUserEntity, Int
     public List<ApplicationUserEntity> findAllByEmail(@Param("email") String email, Sort sort);
 
     public ApplicationUserEntity findById(@Param("id") int id);
+
+    @Query(value = "select * from USERS u where u.deleted = true", nativeQuery = true)
+    public List<ApplicationUserEntity> deleted();
+
+    @Query(value = "select * from USERS u where u.id = ?1", nativeQuery = true)
+    public ApplicationUserEntity findDeletedEntityById(int id);
 }

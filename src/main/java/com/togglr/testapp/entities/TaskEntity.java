@@ -62,7 +62,7 @@ public class TaskEntity {
     }
 
     public void setUserByUserId(ApplicationUserEntity applicationUserEntity) {
-        this.userByUserId = userByUserId;
+        this.userByUserId = applicationUserEntity;
     }
 
     public void setId(Integer id) {

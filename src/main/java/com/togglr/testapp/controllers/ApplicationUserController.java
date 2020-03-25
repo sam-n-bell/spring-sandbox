@@ -27,12 +27,21 @@ public class ApplicationUserController {
      * @param sort
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}/details")
+    @RequestMapping(method = RequestMethod.GET, path = "/users/{id}/details")
     public ResponseEntity<?> returnUserDetails(@PathVariable("id") int id, Sort sort) {
         ApplicationUserEntity appUser = userRepository.findById(id);
         List<TaskEntity> userTasks = taskRepository.findAllByUserId(id, sort);
         appUser.setTasksById(userTasks);
         return ResponseEntity.ok(appUser);
+    }
+
+    @RequestMapping(method = RequestMethod.PATCH, path="/users/{id}/recover")
+    public ResponseEntity<?> recoverUser(@PathVariable("id") int id) {
+        ApplicationUserEntity applicationUserEntity = userRepository.findDeletedEntityById(id);
+        applicationUserEntity.setDeleted(false);
+        userRepository.save(applicationUserEntity);
+        return ResponseEntity.ok(applicationUserEntity);
+
     }
 
 
