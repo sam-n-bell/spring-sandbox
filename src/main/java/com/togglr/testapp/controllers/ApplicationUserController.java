@@ -80,8 +80,12 @@ public class ApplicationUserController {
 
             // below this is test code to see how to make POST requests from Spring and then how to parse a JSON response
             System.out.println(accessTokenRequestUri.toString());
+//            ResponseEntity<String> response = this.restTemplate.postForEntity(
+//                    "https://797c2354.ngrok.io/testing?code=7864",
+//                    entity,
+//                    String.class);
             ResponseEntity<String> response = this.restTemplate.postForEntity(
-                    "https://797c2354.ngrok.io/testing?code=7864", // this is actually localhost:8080, i was just using a tunneling service to get around potential CORS issue (may not happen). The endpoint is above this function
+                    accessTokenRequestUri.toString(),
                     entity,
                     String.class);
             System.out.println(response.getStatusCodeValue());
