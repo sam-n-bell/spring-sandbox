@@ -1,16 +1,29 @@
 package com.togglr.testapp.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.togglr.testapp.jwt.JwtTokenUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 @RestController
 public class TestController {
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    private RestTemplate restTemplate = new RestTemplate();
 
     @RequestMapping(method = RequestMethod.GET, value= "/test/destination")
     public String destination() {
@@ -27,4 +40,46 @@ public class TestController {
         response.sendRedirect(redirectUrl);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value="/togglr-api/oauth/user")
+    @ResponseBody
+    public void testGetUser(@RequestParam(defaultValue = "None") String accessToken, HttpServletResponse response ) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setBearerAuth(accessToken);
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<String> userResponse = this.restTemplate.exchange(
+                "https://api.github.com/user",
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
+        ObjectMapper objectMapper = new ObjectMapper();
+        String name;
+        JsonNode jsonNode = objectMapper.readTree(userResponse.getBody());
+        name = jsonNode.get("login").asText(null);
+        System.out.println(name);
+
+        User userDetails = new User(name, "",  true, true, true, true, new ArrayList<>());
+        System.out.println(userDetails.getUsername());
+        String jwt = jwtTokenUtil.generateToken(userDetails);
+        System.out.println(jwt);
+
+        Cookie oauthCookie = new Cookie("OAUTH-TOKEN", accessToken);
+        oauthCookie.setMaxAge(10000);
+        oauthCookie.setDomain("localhost");
+        oauthCookie.setPath("/");
+        Cookie togglrCookie = new Cookie("X-TOGGLR-TOKEN", jwt);
+        togglrCookie.setMaxAge(10000);
+        togglrCookie.setDomain("localhost");
+        togglrCookie.setPath("/");
+        response.addCookie(oauthCookie);
+        response.addCookie(togglrCookie);
+        response.sendRedirect("http://localhost:8080/test/twocookies");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value="/test/twocookies")
+    @ResponseBody
+    public String testTwoTokens(){
+        return "Check cookies";
+    }
 }

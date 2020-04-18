@@ -10,13 +10,11 @@ import com.togglr.testapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.Cookie;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -103,6 +101,13 @@ public class ApplicationUserController {
             System.out.println("token = " + token);
             // above is test code to see how to make POST requests from Spring and then how to parse a JSON response
 
+
+//            Cookie cookie = new Cookie("TEST-TOKEN", "abcd");
+//            cookie.setMaxAge(1000);
+//            cookie.setDomain("localhost");
+//            cookie.setPath("/");
+//            response.addCookie(cookie);
+//            response.sendRedirect(redirectUrl);
 
         }
 
