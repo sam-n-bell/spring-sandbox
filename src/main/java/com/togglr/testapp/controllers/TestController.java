@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class TestController {
@@ -81,5 +83,20 @@ public class TestController {
     @ResponseBody
     public String testTwoTokens(){
         return "Check cookies";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value="/test/webhook")
+    @ResponseBody
+    public String webHookEndpoint() {
+        try {
+            System.out.println("sleeping at " + new Date().toString());
+            TimeUnit.MINUTES.sleep(3L);
+            System.out.println("resuming at " + new Date().toString());
+            return null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("from exception " + new Date().toString());
+            return null;
+        }
     }
 }
